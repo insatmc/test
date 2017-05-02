@@ -65,27 +65,27 @@ def update_quality(items)
           }
         ]
       end
-      calculateQuality(item, config)
+      calculate_quality(item, config)
       item.sell_in -= 1
     end
   end
 end
 
 
-def calculateQuality(item, config)
+def calculate_quality(item, config)
   config.each do |c|
     if c[:sell_in].length == 2
       if c[:sell_in][0].instance_of?(String) && c[:sell_in][0] == "*" && item.sell_in <= c[:sell_in][1]
-        changeQuality(item, c[:action], c[:value])
+        change_quality(item, c[:action], c[:value])
         break
       elsif c[:sell_in][1].instance_of?(String) && c[:sell_in][1] == "*" && item.sell_in >= c[:sell_in][0]
-        changeQuality(item, c[:action], c[:value])
+        change_quality(item, c[:action], c[:value])
         break
       elsif c[:sell_in][0].instance_of?(String) == false &&
             c[:sell_in][1].instance_of?(String) == false &&
             item.sell_in >= c[:sell_in][0] &&
             item.sell_in <= c[:sell_in][1]
-        changeQuality(item, c[:action], c[:value])
+        change_quality(item, c[:action], c[:value])
         break
       end
     else
@@ -95,7 +95,7 @@ def calculateQuality(item, config)
 end
 
 
-def changeQuality(item, action, value)
+def change_quality(item, action, value)
   case action
   when "INC"
     if item.quality < ( 50 - value )
