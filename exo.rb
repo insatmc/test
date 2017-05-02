@@ -1,48 +1,45 @@
 def update_quality(items)
   items.each do |item|
-    case item.name
-    when 'Backstage passes to a TAFKAL80ETC concert'
-      if item.quality < 50
-        item.quality += 1
+    unless item.name == 'Sulfuras, Hand of Ragnaros'
+      case item.name
+      when 'Backstage passes to a TAFKAL80ETC concert'
         if item.quality < 50
-          case item.sell_in
-          when 6 .. 10
-            item.quality += 1
-          when 0 .. 5
-            item.quality += 2
+          item.quality += 1
+          if item.quality < 50
+            case item.sell_in
+            when 6 .. 10
+              item.quality += 1
+            when 0 .. 5
+              item.quality += 2
+            end
           end
         end
-      end
-      item.sell_in -= 1
-      if item.sell_in < 0
-        item.quality = 0
-      end
-    when 'Aged Brie'
-      if item.quality < 50
-        item.quality += 1
-      end
-      item.sell_in -= 1
-      if item.sell_in < 0 && item.quality < 50
-        item.quality += 1
-      end
-    when 'Conjured Mana Cake'
-      if item.quality > 0
-        item.quality -= 2
-      end
-      item.sell_in -= 1
-      if item.sell_in < 0 && item.quality > 0
-        item.quality -= 2
-      end
-    else
-      if item.name != 'Sulfuras, Hand of Ragnaros'
+        if item.sell_in < 1
+          item.quality = 0
+        end
+      when 'Aged Brie'
+        if item.quality < 50
+          item.quality += 1
+        end
+        if item.sell_in < 1 && item.quality < 50
+          item.quality += 1
+        end
+      when 'Conjured Mana Cake'
+        if item.quality > 0
+          item.quality -= 2
+        end
+        if item.sell_in < 1 && item.quality > 0
+          item.quality -= 2
+        end
+      else
         if item.quality > 0
           item.quality -= 1
         end
-        item.sell_in -= 1
-        if item.sell_in < 0 && item.quality > 0
+        if item.sell_in < 1 && item.quality > 0
           item.quality -= 1
         end
       end
+      item.sell_in -= 1
     end
   end
 end
